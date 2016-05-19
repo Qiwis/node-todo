@@ -33,7 +33,7 @@ module.exports = function(app) {
 				res.send(err);
 
 			// get and return all the todos after you create another
-                        todo.save;
+                        //todo.save;
 			getTodos(res);
 		});
 

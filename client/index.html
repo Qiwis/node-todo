@@ -17,11 +17,18 @@
 		body 					{ padding-top:50px; }
 		#todo-list 				{ margin-bottom:30px; }
 		#todo-form 	 			{ margin-bottom:50px; }
-	</style>
+                .done-true                              {
+                                                   		text-decoration: line-through;
+                                                                color: red;
+                                                        }
+		.done-snooze                            {
+		                                                color: blue;
+		                                        }
+        </style>
 
 	<!-- SPELLS -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
-
+	
 	<script src="js/controllers/todos-ctrl.js"></script> <!-- load up our controller -->
 	<script src="js/services/todos-service.js"></script> <!-- load our todo service -->
 	<script src="js/todos-main.js"></script> <!-- load our main application -->
@@ -41,8 +48,9 @@
 			<div class="col-sm-4 col-sm-offset-4">
 
 				<div class="checkbox"  ng-repeat="todo in todos">
+				  <a href="javascript: void(0)" ng-show="formData[todo._id]" ng-click="snooze(todo._id)">Snooze</a>
                                   <label>
-                                  <input type="checkbox" ng-model="formData[todo._id]" ng-change="doneTodo(todo._id)"> {{ todo.text }}
+                                  <input type="checkbox" ng-model="formData[todo._id]" ng-change="doneTodo(todo._id)"> <span class="done-{{formData[todo._id]}}">{{ todo.text }}</span>
 				  
                                   </label>
                                  </div>
@@ -52,8 +60,11 @@
 				</p>
 
 			</div>
+			<div class="col-sm-12 text-center" ng-show="checked">
+			    You have completed {{ completed }} task!!!
+			</div>
 			<div class="col-sm-12 text-center">
-			    <button type="submit" class="btn btn-danger btn-lg" ng-click="deleteTodo()">Done</button>
+			    <button type="submit" class="btn btn-danger btn-lg" ng-show="checked" ng-click="deleteTodo()">Done</button>
 			</div>
 		</div>
 

@@ -37,6 +37,21 @@ angular.module('todoController', [])
 			}
 		};
 
+	        $scope.snooze = function(id) {
+
+		    console.log($scope.formData[id]);
+		    $scope.formData[id] = "snooze";
+		    console.log($scope.formData[id]);
+		    var index = $scope.doneList.indexOf({id:id});
+                    $scope.doneList.splice(index,1);
+		    $scope.completed = $scope.doneList.length;
+		    if($scope.completed === 0) {
+			$scope.doneList = [];
+			$scope.checked = false;
+		    }
+
+		};
+
 	        $scope.doneTodo = function(id) {
 
 		    if($scope.formData[id]) {
@@ -54,7 +69,18 @@ angular.module('todoController', [])
 			$scope.doneList.splice(index,1);
 		    }
 
+		    if($scope.doneList.length > 0) {
+
+			$scope.checked = true;
+
+		    } else {
+
+			$scope.checked = false;
+
+		    }
+
 		console.log($scope.doneList);
+		$scope.completed = $scope.doneList.length;
 		};
 
 	        $scope.deleteTodo = function() {
@@ -67,6 +93,8 @@ angular.module('todoController', [])
 
 			.success(function(data) {
 			    $scope.loading = false;
+			    $scope.doneList = [];
+			    $scope.checked = false;
 			    $scope.formData = {};
 			    $scope.todos = data;
 			});
