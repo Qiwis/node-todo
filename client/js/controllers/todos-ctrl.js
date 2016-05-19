@@ -3,6 +3,7 @@ angular.module('todoController', [])
 	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','Todos', function($scope, $http, Todos) {
 		$scope.formData = {};
+	        $scope.doneList = [];
 		$scope.loading = true;
 
 		// GET =====================================================================
@@ -21,6 +22,7 @@ angular.module('todoController', [])
 			// validate the formData to make sure that something is there
 			// if form is empty, nothing will happen
 			if ($scope.formData.text != undefined) {
+			        console.log(' { status : success, function : $scope.createTodo } '); 
 				$scope.loading = true;
 
 				// call the create function from our service (returns a promise object)
@@ -33,6 +35,42 @@ angular.module('todoController', [])
 						$scope.todos = data; // assign our new list of todos
 					});
 			}
+		};
+
+	        $scope.doneTodo = function(id) {
+
+		    if($scope.formData[id]) {
+			
+			var matches = $scope.doneList.filter( function(todo) {
+			    return todo.id === id
+			});
+			if(!matches.length) {
+			    $scope.doneList.push({
+				id: id
+			    });
+			}
+		    } else {
+			var index = $scope.doneList.indexOf({id:id});
+			$scope.doneList.splice(index,1);
+		    }
+
+		console.log($scope.doneList);
+		};
+
+	        $scope.deleteTodo = function() {
+		    
+		    if($scope.formData !== undefined) {
+			console.log( '{ status : success, function : $scope.deleteTodo }');
+			$scope.loading = true;
+
+			Todos.delete($scope.doneList)
+
+			.success(function(data) {
+			    $scope.loading = false;
+			    $scope.formData = {};
+			    $scope.todos = data;
+			});
+		    }
 		};
 
 	}]);

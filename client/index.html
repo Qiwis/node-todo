@@ -42,7 +42,8 @@
 
 				<div class="checkbox"  ng-repeat="todo in todos">
                                   <label>
-                                  <input type="checkbox"> {{ todo.text }}
+                                  <input type="checkbox" ng-model="formData[todo._id]" ng-change="doneTodo(todo._id)"> {{ todo.text }}
+				  
                                   </label>
                                  </div>
                              
@@ -50,6 +51,9 @@
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
 				</p>
 
+			</div>
+			<div class="col-sm-12 text-center">
+			    <button type="submit" class="btn btn-danger btn-lg" ng-click="deleteTodo()">Done</button>
 			</div>
 		</div>
 

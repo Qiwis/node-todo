@@ -33,13 +33,30 @@ module.exports = function(app) {
 				res.send(err);
 
 			// get and return all the todos after you create another
+                        todo.save;
 			getTodos(res);
 		});
 
 	});
 
+        app.post('/api/todosremove', function(req, res) {
+
+	    console.log(req.body);
+	    req.body.forEach( function(item) {
+		Todo
+		    .remove({_id:item.id})
+		    .exec(function (err, todo) {
+			if(err)
+			    res.send(err);
+
+			getTodos(res);
+		    });
+            });
+
+	});
+
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
-		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+		res.sendfile('./client/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
 };
